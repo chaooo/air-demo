@@ -48,7 +48,7 @@
           </div>
           <div class="airline">
             <div class="name">
-              <img v-bind:src="'http://online.texpert.com/images/airline/' + item.Voyages[0].AirLineCode +'.png'">
+              <img v-bind:src="'https://texpert.com/images/airline/' + item.Voyages[0].AirLineCode +'.png'">
               <span>{{item.Voyages[0].AirLineName +'('+ item.Voyages[0].AirLineCode + item.Voyages[0].FlightNumber+')'}}</span>
             </div>
             <div class="rule">
@@ -80,7 +80,7 @@
               <span>退改條款</span>
               <a class="btn f14" v-on:click="showFareRule($event)" v-bind:_ref="item.Ref" v-bind:_num="chosenVoyage.length>0?1:0" href="javascript:void(0);">詳細條款</a>
             </div>
-            <div class="loading" v-if="ruleState.mini"><img src="http://online.texpert.com/images/loading.gif"></div>
+            <div class="loading" v-if="ruleState.mini"><img src="https://texpert.com/images/loading.gif"></div>
             <div class="rules" v-else-if="item.minirule.length>0" v-for="seg in item.minirule">
               <div class="tit">{{seg.route}}</div>
               <dl v-for="rule in seg.miniRules">
@@ -102,7 +102,7 @@
             <span>機票條款</span>
             <a class="close" v-on:click="closeFareRule($event)" href="javascript:void(0);">&#x292C;</a>
           </div>
-          <div class="loading" v-if="ruleState.fare"><img src="http://online.texpert.com/images/loading.gif"></div>
+          <div class="loading" v-if="ruleState.fare"><img src="https://texpert.com/images/loading.gif"></div>
           <div v-else-if="Farerule.length!=0" class="btm">
             <ul class="ruleTab">
                 <li v-if="Farerule.length!=0" v-for="(seg,index) in Farerule" v-bind:_val="seg.route" v-bind:class="{'active': index===0}" v-on:click="changeFareRule($event)">{{seg.route}}</li>
@@ -214,7 +214,7 @@
     </div>
     <div class="loadingPage" v-show="loadingPage.status">
         <div class="logo">
-            <img src="http://online.texpert.com/images/logo.png" />
+            <img src="https://texpert.com/images/logo.png" />
         </div>
         <div class="tip f16">我們正為您搜羅最優惠的機票</div>
         <div class="result f16">
@@ -223,7 +223,7 @@
             <div class="page_result_time" v-text="airAPI.departureDate+ (airAPI.searchType!=1 ? ' ➞ '+airAPI.returnDate : '')"></div>
         </div>
         <div class="bar">
-            <img src="http://online.texpert.com/images/loading.gif" />
+            <img src="https://texpert.com/images/loading.gif" />
         </div>
         <div class="redrom f18" v-text="loadingPage.randomNum"></div>
     </div>
@@ -327,7 +327,7 @@ export default {
       var apiKey = this.submitKey;
       var apiRef = el.getAttribute('_ref')
       var apiIndex = el.getAttribute('_num')
-      this.$http.get('http://online.texpert.com/ashx/package/airhandler.ashx?action=minirule&language=2&key=' + apiKey + '&ref=' + apiRef + '&index=' + apiIndex).then(function (r) {
+      this.$http.get('https://texpert.com/ashx/package/airhandler.ashx?action=minirule&language=2&key=' + apiKey + '&ref=' + apiRef + '&index=' + apiIndex).then(function (r) {
         $this.flightList.forEach(function(ele) {
           if (ele.Ref === apiRef) {
             ele.minirule = r.data
@@ -353,7 +353,7 @@ export default {
       var apiKey = this.submitKey;
       var apiRef = el.getAttribute('_ref')
       var apiIndex = el.getAttribute('_num')
-      this.$http.get('http://online.texpert.com/ashx/package/airhandler.ashx?action=farerule&language=2&key=' + apiKey + '&ref=' + apiRef + '&index=' + apiIndex).then(function (r) {
+      this.$http.get('https://texpert.com/ashx/package/airhandler.ashx?action=farerule&language=2&key=' + apiKey + '&ref=' + apiRef + '&index=' + apiIndex).then(function (r) {
         $this.Farerule = r.data
         $this.ruleState.fare = false
       }).catch(function (error) {
@@ -561,9 +561,9 @@ export default {
     })
     // 获取数据
     this.airAPI.action='airs'
-    this.$http.get('http://online.texpert.com/ashx/package/AirHandler.ashx', {params: this.airAPI}).then(function (response) {
-      $this.submitKey = response.data.key
-      $this.tempList = $this.LinqJS.Enumerable.From(response.data.data).OrderBy('x=>x.AdultPrice').ToArray().map(function (obj) {
+    this.$http.get('https://texpert.com/ashx/package/AirHandler.ashx', {params: this.airAPI}).then(function (response) {
+      $this.submitKey = response.data.Data.key
+      $this.tempList = $this.LinqJS.Enumerable.From(response.data.Data.outputTickets).OrderBy('x=>x.AdultPrice').ToArray().map(function (obj) {
         obj.minirule = []
         return obj
       })
@@ -576,6 +576,7 @@ export default {
       clearInterval(interval)
     }).catch(function (error) {
       console.log(error)
+      alert("未搜索到數據！")
       $this.loadingPage.status = false
       clearInterval(interval)
       $this.$router.push({path: 'air'})
@@ -668,10 +669,10 @@ export default {
 .flightList .filterBox .filter dt{color:#003399;}
 .flightList .filterBox .filter label{display:inline-block;margin-right:.15rem;height:.8rem;line-height:.8rem;white-space:nowrap;}
 .flightList .filterBox .filter input{width:.4rem;height:.4rem;vertical-align:text-top;}
-.loadingPage{width:100%;height:100%;position:fixed;left:0;top:0;z-index:99999;background:#fff;background:url(http://online.texpert.com/images/loadbg1.png) center center repeat #fff;font-size:0.7rem;}
+.loadingPage{width:100%;height:100%;position:fixed;left:0;top:0;z-index:99999;background:#fff;background:url(https://texpert.com/images/loadbg1.png) center center repeat #fff;font-size:0.7rem;}
 .loadingPage .logo{padding:1rem 0 .75rem;text-align:center;}
 .loadingPage .logo img{width:5rem;}
-.loadingPage .tip{box-sizing:border-box;min-height:1.6rem;line-height:.8rem;padding:.4rem;background-image:url(http://online.texpert.com/images/loadbd.png);background-repeat:repeat;background-position:center center;text-align:center;font-weight:bold;background-size:cover;}
+.loadingPage .tip{box-sizing:border-box;min-height:1.6rem;line-height:.8rem;padding:.4rem;background-image:url(https://texpert.com/images/loadbd.png);background-repeat:repeat;background-position:center center;text-align:center;font-weight:bold;background-size:cover;}
 .loadingPage .result{text-align:center;line-height:.6rem;}
 .loadingPage .result > div{padding-top:.6rem;}
 .loadingPage .img{text-align:center;margin-top:1rem;}

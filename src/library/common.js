@@ -59,20 +59,9 @@ export default {
               } else {
                 var eq = 0
                 for (var i = 0; i < r.length; i++) {
-                  if (r[i].children.length > 0) {
-                    for (var j = 0; j < r[i].children.length; j++) {
-                      _html += '<li _index="' + eq + '" id="' + r[i].children[j].id + '" citycode="' + r[i].children[j].giataCode + '"><img src="http://online.texpert.com/images/city-15.png">' + r[i].text + ',' + r[i].children[j].text + '(All Airport)[<strong>' + r[i].children[j].id + '</strong>]</li>'
-                      eq += 1
-                      if (r[i].children[j].children.length > 0) {
-                        for (var k = 0; k < r[i].children[j].children.length; k++) {
-                          _html += '<li _index="' + eq + '" id="' + r[i].children[j].children[k].id + '" citycode="' + r[i].children[j].giataCode + '"><img src="http://online.texpert.com/images/fly-15px.png">' + r[i].children[j].children[k].text + '[<strong>' + r[i].children[j].children[k].id + '</strong>]</li>'
-                          eq += 1
-                        }
-                      }
-                    }
-                  }
+                  _html += '<li _index="' + eq + '" id="' + r[i].code + '" citycode="' + r[i].cityCode + '"><img src="http://online.texpert.com/images/fly-15px.png">' + r[i].name + '[<strong>' + r[i].code + '</strong>]</li>'
+                  eq += 1
                 }
-                // var test = eq
               }
               ;[].forEach.call(el.parentNode.children, function (child) {
                 if (child !== el && child.classList.contains('airportData')) {
@@ -90,7 +79,7 @@ export default {
               })
             }
           }
-          xmlhttp.open('GET', 'http://online.texpert.com/ashx/package/AirHandler.ashx?action=airports&keywords=' + encodeURI(el.value) + '&language=2', true)
+          xmlhttp.open('GET', 'https://webservices.texpert.com/websvc/rest/air/airports/autocomplete?type=http&languageCode=zh_HK&keyword=' + encodeURI(el.value), true)
           xmlhttp.send()
         }, 500)
       } else {
